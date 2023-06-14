@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nginx
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: traefik-homelab
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`nginx.homelab.ff1.dev`)
+      kind: Rule
+      services:
+        - name: nginx
+          port: 80
+    - match: Host(`nginx.homelab.ff1.dev`)
+      kind: Rule
+      services:
+        - name: nginx
+          port: 80
+      middlewares:
+        - name: default-headers
+  tls:
+    secretName: homelab-ff1-dev-production-tls

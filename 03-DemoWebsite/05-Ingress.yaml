@@ -1,0 +1,18 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: demo-website-ingress
+  namespace: demo-website
+  annotations:
+    kubernetes.io/ingress.class: traefik-homelab
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`demosite.home.ff1.dev`)
+      kind: Rule
+      services:
+        - name: demo-service
+          port: 80
+  tls:
+    secretName: demosite-home-ff1-dev-prod-tls
